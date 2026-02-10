@@ -2,7 +2,7 @@ name: earnapp-daily-update
 
 on:
   schedule:
-    - cron: '0 1 * * *'   # daily version check
+    - cron: '0 1 * * *'
   push:
     branches: [ "main" ]
   workflow_dispatch:
@@ -21,7 +21,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # 🔤 Convert repository name to lowercase (required by Docker)
+      # 🔤 Convert repository name to lowercase
       - name: Normalize image name
         id: repo
         run: |
@@ -57,7 +57,12 @@ jobs:
             echo "New version detected. Building..."
           fi
 
-      # 🐳 Setup Docker Buildx only if needed
+      # 🐳 Setup QEMU (required for multi-arch)
+      - name: Set up QEMU
+        if: steps.check.outputs.exists == 'false'
+        uses: docker/setup-qemu-action@v3
+
+      # 🐳 Setup Docker Buildx
       - name: Set up Docker Buildx
         if: steps.check.outputs.exists == 'false'
         uses: docker/setup-buildx-action@v3
@@ -78,7 +83,11 @@ jobs:
         with:
           context: .
           push: true
-          platforms: linux/amd64
+          platforms: |
+            linux/amd64
+            linux/arm64
+            linux/arm/v7
+            linux/arm/v6
           tags: |
             ${{ env.REGISTRY }}/${{ steps.repo.outputs.image }}:${{ steps.version.outputs.version }}
             ${{ env.REGISTRY }}/${{ steps.repo.outputs.image }}:latest
