@@ -12,7 +12,7 @@ docker run -d \
   ghcr.io/bhavishyadahiya/earnapp-docker:latest
 ```
 alternatively , you can let the script create nodeid for you , and claim one node by using 
-```docker logs <containerName>  ```
+```docker logs <containerName>```
 ### Output
 ```sh
 > docker logs earnapp
