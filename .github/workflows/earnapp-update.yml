@@ -31,7 +31,7 @@ jobs:
       - name: Get EarnApp version
         id: version
         run: |
-          wget -qO install.sh https://cdn-earnapp.b-cdn.net/static/earnapp/install.sh
+          wget -qO install.sh https://brightdata.com/static/earnapp/install.sh
           VERSION=$(grep '^VERSION=' install.sh | cut -d'"' -f2)
 
           if [ -z "$VERSION" ]; then
