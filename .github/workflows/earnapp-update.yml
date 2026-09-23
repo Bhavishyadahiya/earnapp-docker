@@ -87,7 +87,6 @@ jobs:
             linux/amd64
             linux/arm64
             linux/arm/v7
-            linux/arm/v6
           tags: |
             ${{ env.REGISTRY }}/${{ steps.repo.outputs.image }}:${{ steps.version.outputs.version }}
             ${{ env.REGISTRY }}/${{ steps.repo.outputs.image }}:latest
